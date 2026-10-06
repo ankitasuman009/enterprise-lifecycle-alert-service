@@ -7,21 +7,21 @@ This repository leverages Amazon S3, AWS Lambda, Amazon SQS, Amazon SES, and Ama
 ## System Architecture
 
 
-[Corporate CSV Upload] ──> [Amazon S3 Bucket]
-│
-▼ (S3 Object Created Event)
-[Ingestion Lambda]
-│
-▼ (Asynchronous Decoupling)
-[Amazon SQS Queue] <── [Dead Letter Queue (DLQ)]
-│
-▼ (Managed Batch Triggers)
-[Processor Lambda]
-│
-┌────────────────────────┴────────────────────────┐
-▼                                                 ▼
-[Amazon SES Service]                             [Amazon DynamoDB]
-(Dispatches HTML Alerts to Managers)             (Persists Compliance Audit Logs)
+        [Corporate CSV Upload] ──> [Amazon S3 Bucket]
+                             │
+                             ▼ (S3 Object Created Event)
+                    [Ingestion Lambda]
+                             │
+                             ▼ (Asynchronous Decoupling)
+        [Amazon SQS Queue] <── [Dead Letter Queue (DLQ)]
+                             │
+                             ▼ (Managed Batch Triggers)
+                    [Processor Lambda]
+                             │
+    ┌────────────────────────┴────────────────────────┐
+    ▼                                                 ▼
+    [Amazon SES Service]                             [Amazon DynamoDB]
+    (Dispatches HTML Alerts to Managers)             (Persists Compliance Audit Logs)
 
 ## Why This Architecture?
 
